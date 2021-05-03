@@ -5,7 +5,6 @@ const CountrySelect = (props) => {
   const [open, setOpen] = useState(false);
   const ref = useRef();
   const [countries, setCountries] = useState([]);
-  const pending = "pending";
 
   useEffect(() => {
     const onBodyClick = (event) => {
@@ -27,7 +26,7 @@ const CountrySelect = (props) => {
       setCountries(resp.data.countries);
     })
     .catch( resp =>  console.log(resp))
-  }, [countries.length])
+  }, [])
   
   const renderedOptions = countries.map((option) => {
     if (option === props.country) {
