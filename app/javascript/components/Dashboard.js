@@ -4,7 +4,7 @@ import CountrySelect from './CountrySelect';
 import DataVisualization from './DataVisualization';
 
 const Dashboard = () => {
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState('Loading datas...');
   const [countries, setCountries] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [averageRevenuePerOrder, setAverageRevenuePerOrder] = useState(0);

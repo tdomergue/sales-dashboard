@@ -39,11 +39,9 @@ module Api
       end
 
       def sales_by_country
-        if !params[:country]
+        if params[:country] == "Loading datas..."
           return
-        end
-
-        if params[:country] == "All"
+        elsif params[:country] == "All"
           sales = Sale.all
         else
           sales = Sale.where(country: params[:country])
