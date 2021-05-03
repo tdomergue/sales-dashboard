@@ -3,13 +3,34 @@ module Api
     class SalesController < ApplicationController
       def index
         sales = Sale.all
-        countries = ["All"]
-        sales.each do |sale|
-          countries << sale.country
-        end
-        countries = countries.uniq.sort
 
-        render json: {countries: countries}
+        countries = ["All"]
+        total_revenue = 0
+        revenue_per_order = {}
+        customers = []
+        revenue_per_month = {}
+
+        sales.each do |sale|
+          total_revenue += sale.price
+          countries << sale.country
+          if revenue_per_order[sale.order]
+            revenue_per_order[sale.order] += sale.price
+          else
+            revenue_per_order[sale.order] = sale.price
+          end
+          customers << sale.customer
+          if revenue_per_month[[sale.date.month, sale.date.year]]
+            revenue_per_month[[sale.date.month, sale.date.year]] += sale.price
+          else
+            revenue_per_month[[sale.date.month, sale.date.year]] = sale.price
+          end
+        end
+
+        countries = countries.uniq.sort
+        average_revenue_per_order = revenue_per_order.values.sum / revenue_per_order.keys.length
+        customers_number = customers.uniq.length
+
+        render json: {countries: countries, total_revenue: total_revenue, average_revenue_per_order: average_revenue_per_order, customers_number: customers_number, revenue_per_month: revenue_per_month}
       end
 
       def sales_by_country
