@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SummaryView from './SummaryView';
+import MonthlyView from './MonthlyView';
 
 const DataVisualization = (props) => {
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -14,7 +15,7 @@ const DataVisualization = (props) => {
       setTotalRevenue(Math.round(resp.data.total_revenue));
       setAverageRevenuePerOrder(Math.round(resp.data.average_revenue_per_order));
       setCustomersNumber(Math.round(resp.data.customers_number));
-      setRevenuePerMonth(Math.round(resp.data.revenue_per_month));
+      setRevenuePerMonth(resp.data.revenue_per_month);
       console.log(resp.data);
     })
     .catch( resp => console.log(resp));
@@ -24,6 +25,7 @@ const DataVisualization = (props) => {
     <div>
       DataViz for {props.country}
       <SummaryView totalRevenue={totalRevenue} averageRevenuePerOrder={averageRevenuePerOrder} customersNumber={customersNumber} />
+      {/* <MonthlyView revenuePerMonth={revenuePerMonth} /> */}
     </div>
   );
 }

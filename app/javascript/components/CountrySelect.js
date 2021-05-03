@@ -21,7 +21,7 @@ const CountrySelect = (props) => {
 
   
   useEffect(() => {
-    axios.get('/api/v1/sales.json')
+    axios.get('/api/v1/sales')
     .then( resp => {
       setCountries(resp.data.countries);
     })
