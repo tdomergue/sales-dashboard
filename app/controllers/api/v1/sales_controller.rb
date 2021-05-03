@@ -25,6 +25,11 @@ module Api
             revenue_per_month[[sale.date.month, sale.date.year]] = sale.price
           end
         end
+        # revenue_per_month.sort_by { |k, v| Date }
+        # revenue_per_month.each_key do |month|
+        #   month = Date.new(month[1], month[0], 1)
+        # end
+        # revenue_per_month = revenue_per_month.sort_by{|k, v| k}
 
         countries = countries.uniq.sort
         average_revenue_per_order = revenue_per_order.values.sum / revenue_per_order.keys.length
@@ -34,6 +39,10 @@ module Api
       end
 
       def sales_by_country
+        if !params[:country]
+          return
+        end
+
         if params[:country] == "All"
           sales = Sale.all
         else

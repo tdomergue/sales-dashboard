@@ -4,7 +4,7 @@ import CountrySelect from './CountrySelect';
 import DataVisualization from './DataVisualization';
 
 const Dashboard = () => {
-  const [country, setCountry] = useState("All");
+  const [country, setCountry] = useState();
   const [countries, setCountries] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [averageRevenuePerOrder, setAverageRevenuePerOrder] = useState(0);
@@ -14,7 +14,6 @@ const Dashboard = () => {
   useEffect(() => {
     axios.get('/api/v1/sales')
     .then( resp => {
-      console.log('FIRST');
       setCountries(resp.data.countries);
       setTotalRevenue(Math.round(resp.data.total_revenue));
       setAverageRevenuePerOrder(Math.round(resp.data.average_revenue_per_order));
@@ -27,7 +26,6 @@ const Dashboard = () => {
   useEffect(() => {
     axios.get(`/api/v1/sales/${country}`)
     .then( resp => {
-      console.log('SEARCH');
       setTotalRevenue(Math.round(resp.data.total_revenue));
       setAverageRevenuePerOrder(Math.round(resp.data.average_revenue_per_order));
       setCustomersNumber(Math.round(resp.data.customers_number));
@@ -39,7 +37,7 @@ const Dashboard = () => {
   return (
     <div>
       <CountrySelect country={country} setCountry={setCountry} countries={countries} />
-      <DataVisualization totalRevenue={totalRevenue} averageRevenuePerOrder={averageRevenuePerOrder} customersNumber={customersNumber} />
+      <DataVisualization totalRevenue={totalRevenue} averageRevenuePerOrder={averageRevenuePerOrder} customersNumber={customersNumber} revenuePerMonth={revenuePerMonth} />
     </div>
   );
 }

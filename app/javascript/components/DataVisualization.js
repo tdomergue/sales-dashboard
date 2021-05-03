@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SummaryView from './SummaryView';
 import MonthlyView from './MonthlyView';
 
@@ -7,7 +7,7 @@ const DataVisualization = (props) => {
   return (
     <div>
       <SummaryView totalRevenue={props.totalRevenue} averageRevenuePerOrder={props.averageRevenuePerOrder} customersNumber={props.customersNumber} />
-      {/* <MonthlyView revenuePerMonth={revenuePerMonth} /> */}
+      <MonthlyView revenuePerMonth={props.revenuePerMonth} />
     </div>
   );
 }
