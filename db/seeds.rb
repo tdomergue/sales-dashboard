@@ -30,3 +30,12 @@ CSV.foreach(filepath, csv_options) do |row|
 end
 
 puts "#{Sale.count} sales well and slowly imported!"
+
+User.create!({
+  email: "memory@memory.memory",
+  password: "memory"
+})
+
+puts "NB : user created"
+puts "email: memory@memory.memory"
+puts "password : memory"
