@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         end
       end
       resources :countries, only: [:index]
+      get '/customers/:country', to: 'customers#number_per_country'
     end
   end
 

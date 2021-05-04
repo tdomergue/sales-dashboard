@@ -4,6 +4,15 @@ import axios from 'axios';
 const CountrySelect = (props) => {
   const [open, setOpen] = useState(false);
   const ref = useRef();
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/v1/countries')
+    .then( resp => {
+      setCountries(resp.data.data);
+    })
+    .catch( resp => console.log(resp));
+  }, [])
 
   useEffect(() => {
     const onBodyClick = (event) => {
@@ -18,19 +27,19 @@ const CountrySelect = (props) => {
     };
   }, [])
   
-  const renderedOptions = props.countries.map((option) => {
-    if (option === props.country) {
+  const renderedOptions = countries.map((option) => {
+    if (option.attributes.name === props.country) {
       return null;
     }
   
     return(
-      <div key={option} 
+      <div key={option.attributes.name} 
         className="item" 
         onClick={() => {
-          props.setCountry(option)
+          props.setCountry(option.attributes.name)
         }} 
       >
-        {option}
+        {option.attributes.name}
       </div>
     );
   });
