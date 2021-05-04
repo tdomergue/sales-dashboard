@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'countries/index'
   devise_for :users
   root to: 'pages#home'
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
           get ':country' => :sales_by_country, as: 'country'
         end
       end
+      resources :countries, only: [:index]
     end
   end
 
