@@ -74,10 +74,18 @@
 #   customer.country_id = customer.sales.first.country_id
 #   customer.save!
 # end
-orders = Order.all
-orders.each do |order|
-  order.country_id = order.sales.first.country_id
-  order.save!
-end
+# orders = Order.all
+# orders.each do |order|
+#   order.country_id = order.sales.first.country_id
+#   order.save!
+# end
+# orders = Order.all
+# orders.each do |order|
+#   order.total_price = 0
+#   order.sales.each do |sale|
+#     order.total_price += sale.price
+#   end
+#   order.save!
+# end
 
 # NB !!! créer country All
