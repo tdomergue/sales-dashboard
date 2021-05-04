@@ -28,7 +28,7 @@ const CountrySelect = (props) => {
   }, [])
   
   const renderedOptions = countries.map((option) => {
-    if (option.attributes.name === props.country) {
+    if (option.attributes.id === props.country[0][1]) {
       return null;
     }
   
@@ -36,7 +36,7 @@ const CountrySelect = (props) => {
       <div key={option.attributes.name} 
         className="item" 
         onClick={() => {
-          props.setCountry(option.attributes.name)
+          props.setCountry(Object.entries(option.attributes))
         }} 
       >
         {option.attributes.name}
@@ -53,7 +53,7 @@ const CountrySelect = (props) => {
           className={`ui selection dropdown ${open ? 'visible active' : ''}`}
         >
           <i className="dropdown icon"></i>
-          <div className="text">{props.country}</div>
+          <div className="text">{props.country === 'Select a country' ? props.country : props.country[1][1]}</div>
           <div className={`menu ${open ? 'visible transition' : ''}`} >
             {renderedOptions}
           </div>

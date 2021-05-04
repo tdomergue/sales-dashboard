@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_081031) do
+ActiveRecord::Schema.define(version: 2021_05_04_143134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,12 +25,16 @@ ActiveRecord::Schema.define(version: 2021_05_04_081031) do
     t.string "numero"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_customers_on_country_id"
   end
 
   create_table "orders", force: :cascade do |t|
     t.string "numero"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_orders_on_country_id"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -58,6 +62,8 @@ ActiveRecord::Schema.define(version: 2021_05_04_081031) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "customers", "countries"
+  add_foreign_key "orders", "countries"
   add_foreign_key "sales", "countries"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales", "orders"

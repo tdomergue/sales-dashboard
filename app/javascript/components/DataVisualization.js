@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SummaryView from './SummaryView';
 import MonthlyView from './MonthlyView';
+import axios from 'axios';
 
 const DataVisualization = (props) => {
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -9,20 +10,23 @@ const DataVisualization = (props) => {
   const [revenuePerMonth, setRevenuePerMonth] = useState({});
 
   useEffect(() => {
-    axios.get(`/api/v1/sales/${country}`)
+    axios.get(`/api/v1/customers/${props.country[0][1]}`)
+    .then( resp => setCustomersNumber(resp.data.customers) )
+    .catch( resp => console.log(resp) );
+  }, [props.country])
+
+  useEffect(() => {
+    axios.get(`/api/v1/sales/${props.country[0][1]}`)
     .then( resp => {
-      setTotalRevenue(Math.round(resp.data.total_revenue));
-      setAverageRevenuePerOrder(Math.round(resp.data.average_revenue_per_order));
-      setCustomersNumber(Math.round(resp.data.customers_number));
-      setRevenuePerMonth(resp.data.revenue_per_month);
+      setTotalRevenue(Math.round(resp.data.revenue));
     })
     .catch( resp => console.log(resp));
-  }, [country])
+  }, [props.country])
 
   return (
     <div>
-      <SummaryView totalRevenue={props.totalRevenue} averageRevenuePerOrder={props.averageRevenuePerOrder} customersNumber={props.customersNumber} />
-      <MonthlyView revenuePerMonth={props.revenuePerMonth} />
+      <SummaryView totalRevenue={totalRevenue} averageRevenuePerOrder={props.averageRevenuePerOrder} customersNumber={customersNumber} />
+      {/* <MonthlyView revenuePerMonth={props.revenuePerMonth} /> */}
     </div>
   );
 }
