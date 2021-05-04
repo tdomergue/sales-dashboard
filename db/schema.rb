@@ -10,19 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_03_112703) do
+ActiveRecord::Schema.define(version: 2021_05_04_081031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "numero"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "numero"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "sales", force: :cascade do |t|
     t.date "date"
-    t.integer "order"
-    t.integer "customer"
-    t.string "country"
     t.float "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id", null: false
+    t.bigint "customer_id", null: false
+    t.bigint "country_id", null: false
+    t.index ["country_id"], name: "index_sales_on_country_id"
+    t.index ["customer_id"], name: "index_sales_on_customer_id"
+    t.index ["order_id"], name: "index_sales_on_order_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,4 +58,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_112703) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "sales", "countries"
+  add_foreign_key "sales", "customers"
+  add_foreign_key "sales", "orders"
 end

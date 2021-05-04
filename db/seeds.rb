@@ -12,24 +12,53 @@ puts "Parsing the data.csv to inject it in DB, you can go grab a coffee (even in
 puts "Sales imported :"
 
 Sale.destroy_all
+Order.destroy_all
+Customer.destroy_all
+Country.destroy_all
+User.destroy_all
 
 csv_options = { col_sep: ',', quote_char: '"', headers: :first_row }
 filepath = 'db/memory-tech-challenge-data.csv'
 
 i = 0
 CSV.foreach(filepath, csv_options) do |row|
-  Sale.create!({
+
+  sale = Sale.new({
     date: Date.parse(row['date']),
-    order: row['order_id'].to_i,
-    customer: row['customer_id'].to_i,
-    country: row['country'],
     price: row['quantity'].to_i * row['unit_price'].to_f
   })
+
+  order = Order.where(numero: row['order_id']).first
+  if order
+    sale.order = order
+  else
+    sale.order = Order.create!(numero: row['order_id'])
+  end
+
+  customer = Customer.where(numero: row['customer_id']).first
+  if customer
+    sale.customer = customer
+  else
+    sale.customer = Customer.create!(numero: row['customer_id'])
+  end
+
+  country = Country.where(name: row['country']).first
+  if country
+    sale.country = country
+  else
+    sale.country = Country.create!(name: row['country'])
+  end
+
+  sale.save!
+
   i += 1
   puts "#{i}       / 406829"
 end
 
 puts "#{Sale.count} sales well and slowly imported!"
+puts "#{Order.count} Orders well and slowly imported!"
+puts "#{Customer.count} Customers well and slowly imported!"
+puts "#{Country.count} Countres well and slowly imported!"
 
 User.create!({
   email: "memory@memory.memory",
