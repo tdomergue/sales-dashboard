@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get '/customers/:country', to: 'customers#number_per_country'
       get '/sales/:country', to: 'sales#revenue_per_country'
       get '/orders/:country', to: 'orders#average_revenue_per_country'
+      get '/sales/:country/monthly', to: 'sales#revenue_per_month'
     end
   end
 
